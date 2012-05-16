@@ -1,6 +1,9 @@
 \documentclass[letterpaper, 11pt]{article}
-\usepackage{graphicx}
-\usepackage{natbib}
+\usepackage{authblk}	% For nice author-affil lists
+\usepackage{graphicx}	% For figures
+\usepackage{natbib}	% For citet and citep
+\usepackage{amsmath}	% for \iint
+\usepackage{bbm}	% for blackboard bold numbers
 \usepackage[left=3cm,top=3cm,right=3cm]{geometry}
 
 \renewcommand{\topfraction}{0.85}
@@ -8,15 +11,15 @@
 \parindent=0cm
 
 \title{Robust Inferences from Simply Parameterised Models}
-    
-\author{%
-  Brendon~J.~Brewer$^{1}$\thanks{\tt brewer@physics.ucsb.edu}, 
-  Geraint~F.~Lewis$^{2}$,
-  Ross Fadely\\
-  \medskip\\
-  $^1$UCSB\\
-  $^2$USyd
+
+\author[1,2]{Brendon J. Brewer}
+\author[3]{Geraint~F.~Lewis}
+\author[4]{Ross Fadely}
+\affil[1]{\small Dept. of Physics, University of California, Santa Barbara, CA 93106, USA}
+\affil[2]{Department of Statistics, University of Auckland, Private Bag 92019, Auckland, New Zealand
 }
+\affil[3]{Sydney Institute for Astronomy, School of Physics, The University of Sydney, A28, Sydney, 2006, Australia}
+\affil[4]{Department of Astronomy, Haverford College, 370 Lancaster Ave., Haverford, PA 19041 USA}
 
 \begin{document}
 
@@ -30,10 +33,7 @@ The use of simply parameterised models is problematic when they are fit to large
 inferences. The key idea is to weaken the connection between the parameters and the data that is assumed in the prior probabilities. This weakening can be implemented straightforwardly using the Nested Sampling algorithm.
 \end{abstract}
 
-\section{Background on Bayesian Inference}
-
-
-
+\section{Introduction}
 
 \begin{itemize}
 \item Define terminology very carefully, present Bayes' rule \\
@@ -42,10 +42,32 @@ inferences. The key idea is to weaken the connection between the parameters and 
 \item Discuss the various attempts at robustness/model checking/elicitation and that stuff
 \end{itemize}
 
+Bayesian Inference is a powerful framework for modelling uncertainty that has
+been successfully applied in many scientific fields \citep{}. The basic idea
+is that we can model the degree of plausibility of a hypothesis $H$ by a real
+number in $[0, 1]$, and that these numbers should be manipulated according to
+the rules of probability theory. If we are initially uncertain about some
+hypothesis $H$, we model this as a {\it prior probability} $P(H)$. If some other
+hypothesis $D$ is discovered to be true, the plausibility of $H$ is updated to
+the {\it posterior probability} using Bayes' rule:
+\begin{equation}
+P(H|D) = \frac{P(H)P(D|H)}{P(D)}
+\end{equation}
+
+One common application of Bayesian Inference is for parameter estimation.
+Suppose there is some quantity $\theta$ that is unknown. Initially, we describe
+our uncertainty by a prior distribution $p(\theta)$. We also know about some
+observation or experiment that will yield data $D$ that will provide some
+information about $\theta$. We describe our knowledge about this process by 
+{\it sampling distributions} $p(D|\theta)$. Then, once a specific data set
+$D_{\rm obs}$ has been observed, we update our state of knowledge about $\theta$
+to the {\it posterior distribution}:
 \begin{equation}
 p(\theta | D) \propto p(\theta) p(D|\theta)|_{D=D_{\rm obs}}
 \end{equation}
 The various terms in this equation have the following names and meanings.
+
+
 
 \begin{itemize}
 \item $p(\theta|D)$ is the {\it posterior distribution}
