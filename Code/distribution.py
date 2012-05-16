@@ -2,6 +2,7 @@
 Code for fitting a simple 1-D PDF to a complex one, by maximum entropy
 """
 import numpy as np
+import numpy.random as rng
 import matplotlib.pyplot as plt
 import scipy.optimize
 
@@ -42,8 +43,16 @@ class Complex:
 				*np.exp(-0.5*((x - self.mu)/self.sig[i])**2)
 		return p
 
-	def generate_data(self):
-		pass
+	def generate_data(self, num=10):
+		data = np.empty(num)
+		max_weight = self.weights.max()
+		for i in xrange(0, num):
+			# Choose a component
+			which = rng.randint(self.N)
+			while rng.rand() >= self.weights[which]/max_weight:
+				which = rng.randint(self.N)
+			data[i] = self.mu + self.sig[which]*rng.randn()
+		return data
 
 def utility(simple, complicated, x):
 	U = np.trapz(complicated.pdf(x)*np.log(simple.pdf(x) + 1E-300), x=x)
@@ -51,7 +60,7 @@ def utility(simple, complicated, x):
 
 # Executable code
 if __name__ == '__main__':
-	x = np.linspace(-10., 10., 1001)
+	x = np.linspace(-30., 30., 10001)
 	complicated = Complex(mu=0., sig=np.array([0.3, 1., 3.]),\
 				weights=np.array([0.5, 0.5, 0.5]))
 
