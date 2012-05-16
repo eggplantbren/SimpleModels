@@ -5,71 +5,65 @@ import numpy as np
 import matplotlib.pyplot as plt
 import scipy.optimize
 
-# A Pareto (power-law) distribution
+# A normal distribution
 class Simple:
-	"""
-	Constructor: takes a minimum value cutoff
-	and a slope parameter
-	"""
-	def __init__(self, xMin, alpha):
-		assert xMin > 0 and alpha > 0
-		self.xMin, self.alpha = xMin, alpha
-	"""
-	Evaluate the probability density given a numpy
-	array of x-points
-	"""
-	def pdf(self, x, normalise=False):
-		p = np.zeros(x.shape)
-		good = np.nonzero(x > self.xMin)[0]
-		p[good] = self.alpha*self.xMin**self.alpha/x**(self.alpha + 1)
-		if normalise:
-			p = p/np.trapz(p, x=x)
+	def __init__(self, mu=0., log_sig=0.):
+		"""
+		Constructor: takes a mean and a log-standard deviation
+		"""
+		self.mu, self.sig = mu, np.exp(log_sig)
+
+	def pdf(self, x):
+		"""
+		Evaluate the probability density given a numpy
+		array of x-points
+		"""
+		p = 1./self.sig/np.sqrt(2*np.pi)\
+			*np.exp(-0.5*((x - self.mu)/self.sig)**2)
 		return p
 
-# A mixture of N exponentials
+# A mixture of N concentric gaussians
 class Complex:
-	"""
-	Constructor: takes a numpy array of 
-	means and weights
-	"""
-	def __init__(self, xMin, means, weights):
-		assert weights.size == means.size
-		assert xMin > 0
-		weights = weights/weights.sum()
-		self.xMin, self.means, self.weights = xMin, means, weights
-		
-	def pdf(self, x, normalise=False):
+	def __init__(self, mu=0., sig=np.array([1.,1.]),\
+			weights=np.array([0.5, 0.5])):
+		"""
+		Constructor: takes a mean, a tuple of sigmas
+		and a tuple of not-necessarily normalised weights
+		"""
+		assert sig.size == weights.size
+		assert np.all(weights >= 0.) and np.all(sig > 0.)
+		self.N = sig.size
+		self.mu, self.sig, self.weights = mu, sig, weights/weights.sum()
+
+	def pdf(self, x):
 		p = np.zeros(x.shape)
-		good = np.nonzero(x > self.xMin)[0]
-		for i in xrange(0, self.weights.size):
-			p[good] += self.weights[i]/(self.means[i])*np.exp(-(x[good] - self.xMin)/self.means[i])
-		if normalise:
-			p = p/np.trapz(p, x=x)
+		for i in xrange(0, self.N):
+			p += self.weights[i]/self.sig[i]/np.sqrt(2*np.pi)\
+				*np.exp(-0.5*((x - self.mu)/self.sig[i])**2)
 		return p
 
-def entropy(simple, complicated, x):
-	p_simple = simple.pdf(x, normalise=True)
-	p_complex = complicated.pdf(x, normalise=True)
-	H = -np.trapz(x, p_complex*np.log(p_complex/(p_simple + 1E-300) + 1E-300))
-	return H
+	def generate_data(self):
+		pass
 
-complicated = Complex(1.0, np.array([1.0, 3.0]), np.array([0.5, 0.5]))
-x = np.linspace(1.0, 100.0, 10001)
-
-def minimiseMe(params):
-	if params < 0:
-		return 1E300
-	simple = Simple(1.0, params)
-	return -entropy(simple, complicated, x)
+def utility(simple, complicated, x):
+	U = np.trapz(complicated.pdf(x)*np.log(simple.pdf(x) + 1E-300), x=x)
+	return U
 
 # Executable code
 if __name__ == '__main__':
+	x = np.linspace(-10., 10., 1001)
+	complicated = Complex(mu=0., sig=np.array([0.3, 1., 3.]),\
+				weights=np.array([0.5, 0.5, 0.5]))
 
-	params = 1.0
+	def minimiseMe(params):
+		simple = Simple(mu=params[0], log_sig=params[1])
+		return -utility(simple, complicated, x)
+
+	params = np.array([0., 0.])
 	params = scipy.optimize.fmin(minimiseMe, params)
-	simple = Simple(1.0, params)	
+	simple = Simple(mu=params[0], log_sig=params[1])	
 
-	plt.plot(x, complicated.pdf(x, normalise=True), 'b')
-	plt.plot(x, simple.pdf(x, normalise=True), 'r')
+	plt.plot(x, complicated.pdf(x), 'b')
+	plt.plot(x, simple.pdf(x), 'r')
 	plt.show()
 
