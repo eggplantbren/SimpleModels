@@ -10,7 +10,7 @@
 \renewcommand{\textfraction}{0.1}
 \parindent=0cm
 
-\title{Robust Inferences from Simply Parameterised Models}
+\title{Reliable Inferences from Simply Parameterised Models}
 
 \author[1,2]{Brendon J. Brewer}
 \author[3]{Geraint~F.~Lewis}
@@ -67,8 +67,6 @@ p(\theta | D) \propto p(\theta) p(D|\theta)|_{D=D_{\rm obs}}
 \end{equation}
 The various terms in this equation have the following names and meanings.
 
-
-
 \begin{itemize}
 \item $p(\theta|D)$ is the {\it posterior distribution}
 for the parameters, and is usually the goal of the calculation. It describes our
@@ -80,12 +78,12 @@ $\theta$ before taking into account the data. Commonly, this is a broad
 probability distribution, describing a large amount of uncertainty. \\
 
 \item $p(D|\theta)$ is a function of
-both $\theta$ and $D$ and is referred to as the {\it sampling distributions}. 
-The reason for the awkward plural is that $p(D|\theta)$ is a set of probability distributions,
-one for each value of $\theta$. The sampling distributions describe our prior information about how the data are connected to the parameters \citep{2008arXiv0808.0012C}. \\
+both $\theta$ and $D$ and is referred to as the {\it sampling distribution}. 
+The sampling distribution $p(D|\theta)$ is a set of probability distributions,
+one for each value of $\theta$, and describe our prior information about how the data are connected to the parameters \citep{2008arXiv0808.0012C}.
 
 \item $p(D|\theta)|_{D = D_{\rm obs}}$ is called the {\it likelihood function}.
-It is obtained from the sampling distributions, with the actual data substituted in,
+It is obtained from the sampling distribution, with the actual data substituted in,
 and is therefore a function of $\theta$ only. It describes the effects of the actual data
 set that was observed on our beliefs about $\theta$: values of $\theta$ with a high
 likelihood predicted the data well and will have their probability upweighted
@@ -99,7 +97,7 @@ in the posterior distribution.
 \end{center}
 \end{figure*}
 
-\section{Advantages and Disadvantages of Simply Parameterised Models}
+\section{The Failure of Simply Parameterised Models}
 \begin{itemize}
 \item Easy to implement \\
 \item Computationally fast to get inferences - therefore can be applied on a large scale, e.g. to large samples of objects. \\
