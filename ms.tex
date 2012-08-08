@@ -101,12 +101,43 @@ When the number of parameters being inferred is 3 or greater, enumeration of
 all possible values becomes computationally prohibitive. In this situation,
 Markov Chain Monte Carlo (MCMC) methods are commonly used to produce samples
 drawn from the posterior distribution. These samples can then be used to view
-the marginal distribution for any particular parameter(s) of interest. If the
+the marginal distribution for any particular parameter(s) of interest.
+In addition, if the
 samples are viewed as a movie, they can give the viewer an intuitive sense of
 the uncertainty in the determination of the parameters: any feature of the
-models that varies between frames is a conclusion that is uncertain, and any
-feature that is common to all models in the sample is a feature that has a high
+models that varies between movie frames is a conclusion that is uncertain, and any
+feature that is common to all frames in the movie is a feature that has a high
 posterior probability.
+
+\section{Two Kinds of Model}
+In this paper we consider two general categories of models that can be fit to
+data. The first of these we will call ``simply-parameterised'' models.
+
+\subsection{Simply-Parameterised Models}
+Simply-parameterised models, which are also
+commonly known as parametric models, are in widespread use for a number of reasons.
+Firstly, they are easy to implement in software, and sometimes analytical
+solutions are available for the inference of their parameters from data.
+Secondly, their parameters usually have simple meanings that are easy to interpret.
+This property makes communication easy, as well as making it straightforward to
+make uncontroversial prior probability
+assignments to the possible values of the parameters. Finally, when the inference
+is done computationally, the MCMC methods tend to work very well.
+
+\subsection{Complex Models}
+The second category of models we consider are ``complex'' models. These tend to
+be much more flexible and contain large numbers of unknown parameters. Complex
+models are often incorrectly referred to as nonparametric models. A better term
+would be flexible models or free-form models.
+
+The primary advantage of complex models is realism. The universe is not
+simple place, and it is rare that a physical situation can be described accurately
+by a simply-parameterised model which is often a single mathematical equation.
+
+\section{Example: Fitting an Emission Line}
+Throughout this paper we will use a simple example of fitting an emission line
+to noisy data in order to estimate the total flux of the line.
+
 
 \section{The Failure of Simply Parameterised Models}
 \begin{itemize}
