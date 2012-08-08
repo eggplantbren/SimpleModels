@@ -29,7 +29,7 @@
 
 \begin{abstract}
 We discuss the practical use of simply parameterised models in Bayesian data analysis, particularly in astronomy.
-The use of simply parameterised models is problematic when they are fit to large, informative data sets, resulting in unrealistically small uncertainties on inferences. In common parlance, the formal statistical errors may be small, but the systematic errors are often large and in many cases, difficult to quantify at all. In principle, the best solution to this problem is to develop more realistic complex models that accurately describe our prior beliefs. However, this is often infeasible in practice, due to computational limitations and the difficulty of defining realistic prior distributions over high dimensional spaces. As a pragmatic alternative, we show that it is possible to reinterpret the use of simple models in a way that avoids the problem of overconfident
+The use of simply parameterised models is problematic when they are fit to large, informative data sets, resulting in unrealistically small uncertainties on inferences. In common parlance, the formal statistical errors may be small, but the systematic errors are often large and in many cases, difficult to quantify at all. In principle, the best solution to this problem is to develop more realistic complex models that accurately describe our prior beliefs. However, this is often infeasible in practice, due to computational limitations and the difficulty of defining satisfactory prior distributions over high dimensional spaces. As a pragmatic alternative, we show that it is possible to reinterpret the use of simple models in a way that avoids the problem of overconfident
 inferences. The key idea is to weaken the connection between the parameters and the data that is assumed in the prior probabilities. This weakening can be implemented straightforwardly using the Nested Sampling algorithm.
 \end{abstract}
 
@@ -96,6 +96,17 @@ in the posterior distribution.
 \includegraphics[scale=0.5]{joint_marginal.eps}
 \end{center}
 \end{figure*}
+
+When the number of parameters being inferred is 3 or greater, enumeration of
+all possible values becomes computationally prohibitive. In this situation,
+Markov Chain Monte Carlo (MCMC) methods are commonly used to produce samples
+drawn from the posterior distribution. These samples can then be used to view
+the marginal distribution for any particular parameter(s) of interest. If the
+samples are viewed as a movie, they can give the viewer an intuitive sense of
+the uncertainty in the determination of the parameters: any feature of the
+models that varies between frames is a conclusion that is uncertain, and any
+feature that is common to all models in the sample is a feature that has a high
+posterior probability.
 
 \section{The Failure of Simply Parameterised Models}
 \begin{itemize}
