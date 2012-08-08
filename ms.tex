@@ -9,6 +9,7 @@
 \renewcommand{\topfraction}{0.85}
 \renewcommand{\textfraction}{0.1}
 \parindent=0cm
+\newcommand{\yy}{\mathbf{y}}
 
 \title{Reliable Inferences from Simply Parameterised Models}
 
@@ -134,29 +135,43 @@ The primary advantage of complex models is realism. The universe is not
 simple place, and it is rare that a physical situation can be described accurately
 by a simply-parameterised model which is often a single mathematical equation.
 
-\section{Example 2: Fitting an Emission Line}
+\section{Example 1: Fitting an Emission Line}
 Throughout this paper we will use a simple example of fitting an emission line
 to noisy data in order to estimate the total flux of the line.
 
 \subsection{The Simply-Parameterised Model}
 The model for the shape of the line is:
 \begin{eqnarray}
-\mathcal{M}(x; a, b, c) &=& \exp\left[\right]
+\mathcal{M}(x; A, c, w) &=&
+A\exp
+\left[
+-\frac{1}{2w^2}
+\left(x - c\right)^2
+\right]
 \end{eqnarray}
+where $A$ is the peak amplitude, $c$ is the central position of the line
+and $w$ is the line width. To infer the parameters $\{A, c, w\}$ from some data
+$\yy$, we will use Bayes' rule:
+\begin{eqnarray}
+p(A, c, w | \yy) \propto p(A, c, w)p(\yy | A, c, w).
+\end{eqnarray}
+To proceed, we just need to define the prior and the sampling distribution.
 
 \subsection{The Sampling Distribution}
-The sampling distribution, aka the probability distribution for the data given
-the parameters, is simply a multivariate normal distribution. Note that the
+We will assume that the data are simply noisy measurements of the true line shape
+$\mathcal{M}(x)$ at a finite number of $x$-values.
+The sampling distribution, aka the probability distribution for the data $\yy$ given
+the parameters, is simply a normal/gaussian distribution. Note that the
 gaussian error assumption should be distinguished from the assumption of a gaussian
 shape for the emission line.
 
 \begin{eqnarray}
-p(\mathbf{y}|a, b, c) &=& \prod_{i=1}^N
+p(\yy|A, c, w) &=& \prod_{i=1}^N
 \frac{1}{\sigma\sqrt{2\pi}}
 \exp
 \left[
--\frac{1}{2\sigma^2}\left(y_i - \mathcal{M}(x_i; a, b, c)\right)^2
-\right]
+-\frac{1}{2\sigma^2}\left(y_i - \mathcal{M}(x_i; A, c, w)\right)^2
+\right].
 \end{eqnarray}
 
 \section{The Failure of Simply Parameterised Models}
