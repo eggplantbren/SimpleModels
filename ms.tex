@@ -134,10 +134,30 @@ The primary advantage of complex models is realism. The universe is not
 simple place, and it is rare that a physical situation can be described accurately
 by a simply-parameterised model which is often a single mathematical equation.
 
-\section{Example: Fitting an Emission Line}
+\section{Example 2: Fitting an Emission Line}
 Throughout this paper we will use a simple example of fitting an emission line
 to noisy data in order to estimate the total flux of the line.
 
+\subsection{The Simply-Parameterised Model}
+The model for the shape of the line is:
+\begin{eqnarray}
+\mathcal{M}(x; a, b, c) &=& \exp\left[\right]
+\end{eqnarray}
+
+\subsection{The Sampling Distribution}
+The sampling distribution, aka the probability distribution for the data given
+the parameters, is simply a multivariate normal distribution. Note that the
+gaussian error assumption should be distinguished from the assumption of a gaussian
+shape for the emission line.
+
+\begin{eqnarray}
+p(\mathbf{y}|a, b, c) &=& \prod_{i=1}^N
+\frac{1}{\sigma\sqrt{2\pi}}
+\exp
+\left[
+-\frac{1}{2\sigma^2}\left(y_i - \mathcal{M}(x_i; a, b, c)\right)^2
+\right]
+\end{eqnarray}
 
 \section{The Failure of Simply Parameterised Models}
 \begin{itemize}
