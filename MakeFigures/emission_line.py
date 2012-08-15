@@ -26,5 +26,10 @@ ylim([-0.03, 0.13])
 title('Noisy Data')
 
 savefig('../emission_line.eps')
+data = empty((x.size, 3))
+data[:,0] = x
+data[:,1] = y
+data[:,2] = sig
+savetxt('../Code/emission_line_data.txt', data)
 show()
 
