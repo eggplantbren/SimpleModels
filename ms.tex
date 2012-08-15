@@ -171,7 +171,9 @@ p(\yy|A, c, w) &=& \prod_{i=1}^N
 \exp
 \left[
 -\frac{1}{2\sigma^2}\left(y_i - \mathcal{M}(x_i; A, c, w)\right)^2
-\right].
+\right] \\
+&\propto& \exp\left[-\frac{1}{2\sigma^2}\sum_{i=1}^N\left(y_i - \mathcal{M}(x_i; A, c, w)\right)^2\right] \\
+&\propto& \exp\left[-\frac{1}{2}\chi^2\right].
 \end{eqnarray}
 
 \section{The Failure of Simply Parameterised Models}
