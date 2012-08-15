@@ -4,7 +4,7 @@ figure(figsize=(8, 12))
 seed(0)
 x = linspace(-10., 10., 101)
 
-M = exp(-0.5*(x/0.3)**2) + exp(-0.5*(x-1.)**2)
+M = 2*exp(-0.5*(x/0.3)**2) + exp(-0.5*(x-1.)**2)
 M = M/sum(M)
 sig = 0.003*ones(M.shape)
 y = M + sig*randn(M.size)
