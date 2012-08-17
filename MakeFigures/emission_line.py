@@ -2,11 +2,11 @@ from pylab import *
 
 figure(figsize=(8, 12))
 seed(0)
-x = linspace(-10., 10., 101)
+x = linspace(-10., 10., 1001)
 
 M = 3*exp(-0.5*(x/0.3)**2) + exp(-0.5*(x-1.)**2) + 5*exp(-0.5*((x+1)/0.5)**2)
 M = M/sum(M)
-sig = 0.003*ones(M.shape)
+sig = 0.0003*ones(M.shape)
 y = M + sig*randn(M.size)
 
 subplot(2,1,1)
