@@ -37,7 +37,7 @@ void FitLine::fromPrior()
 	A = exp(log(1E-3) + log(1E6)*randomU());
 	c = -10. + 20.*randomU();
 	w = exp(log(1E-3) + log(1E6)*randomU());
-	sigmaBoost = exp(3*randn());
+	sigmaBoost = exp(5*randn());
 }
 
 double FitLine::perturb()
@@ -67,9 +67,9 @@ double FitLine::perturb()
 	else
 	{
 		sigmaBoost = log(sigmaBoost);
-		logH -= -0.5*pow(sigmaBoost/3., 2);
-		sigmaBoost += 3.*pow(10., 1.5 - 6.*randomU())*randn();
-		logH += -0.5*pow(sigmaBoost/3., 2);
+		logH -= -0.5*pow(sigmaBoost/5., 2);
+		sigmaBoost += 5.*pow(10., 1.5 - 6.*randomU())*randn();
+		logH += -0.5*pow(sigmaBoost/5., 2);
 		sigmaBoost = exp(sigmaBoost);
 	}
 
