@@ -26,7 +26,8 @@
 class FitLine:public DNest3::Model
 {
 	private:
-		double A, c, w;		
+		double A, c, w;
+		double sigmaBoost;		
 
 	public:
 		FitLine();

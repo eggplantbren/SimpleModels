@@ -37,30 +37,40 @@ void FitLine::fromPrior()
 	A = exp(log(1E-3) + log(1E6)*randomU());
 	c = -10. + 20.*randomU();
 	w = exp(log(1E-3) + log(1E6)*randomU());
+	sigmaBoost = exp(3*randn());
 }
 
 double FitLine::perturb()
 {
 	double logH = 0.;
 	
-	if(randomU() <= 0.33333)
+	int which = randInt(4);
+	if(which == 0)
 	{
 		A = log(A);
 		A += log(1E6)*pow(10., 1.5 - 6*randomU())*randn();
 		A = mod(A - log(1E-3), log(1E6)) + log(1E-3);
 		A = exp(A);
 	}
-	else if(randomU() <= 0.5)
+	else if(which == 1)
 	{
 		c += 20*pow(10., 1.5 - 6*randomU())*randn();
 		c = mod(c + 10., 20.) - 10.;
 	}
-	else
+	else if(which == 2)
 	{
 		w = log(w);
 		w += log(1E6)*pow(10., 1.5 - 6*randomU())*randn();
 		w = mod(w - log(1E-3), log(1E6)) + log(1E-3);
 		w = exp(w);
+	}
+	else
+	{
+		sigmaBoost = log(sigmaBoost);
+		logH -= -0.5*pow(sigmaBoost/3., 2);
+		sigmaBoost += 3.*pow(10., 1.5 - 6.*randomU())*randn();
+		logH += -0.5*pow(sigmaBoost/3., 2);
+		sigmaBoost = exp(sigmaBoost);
 	}
 
 	return logH;
@@ -68,26 +78,29 @@ double FitLine::perturb()
 
 double FitLine::logLikelihood() const
 {
-	double mock;
-	double chisq = 0.;
+	double mock, sig;
+	double logL = 0.;
 	for(int i=0; i<Data::get_instance().get_N(); i++)
 	{
 		mock = A*exp(-0.5*pow((Data::get_instance().get_x(i) - c)/w, 2));
-		chisq += pow((Data::get_instance().get_y(i) - mock)/Data::get_instance().get_sig(i), 2);
+		sig = sigmaBoost*Data::get_instance().get_sig(i);
+
+		logL += -log(sig);
+		logL += -0.5*pow((Data::get_instance().get_y(i) - mock)/sig, 2);
 	}
 
-	return -0.5*chisq;
+	return logL;
 }
 
 
 void FitLine::print(std::ostream& out) const
 {
-	out<<A<<' '<<c<<' '<<w<<' ';
+	out<<A<<' '<<c<<' '<<w<<' '<<sigmaBoost<<' ';
 }
 
 string FitLine::description() const
 {
-	string result("A, c, w");
+	string result("A, c, w, sigmaBoost");
 	return result;
 }
 
