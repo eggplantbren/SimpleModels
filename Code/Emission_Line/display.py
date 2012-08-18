@@ -23,5 +23,6 @@ plt.ioff()
 plt.show()
 
 plt.hist(flux, 30)
+print((flux.mean(), flux.std(), (flux.mean() - 1.)/flux.std()))
 plt.show()
 
