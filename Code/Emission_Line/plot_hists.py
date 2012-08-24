@@ -13,5 +13,5 @@ xlabel('Total Flux', fontsize=14)
 ylabel('Posterior Probability', fontsize=14)
 show()
 
-savefig('../failure.eps')
+savefig('../../failure.eps')
 
