@@ -36,15 +36,8 @@ inferences. The key idea is to weaken the connection between the parameters and 
 
 \section{Introduction}
 
-\begin{itemize}
-\item Define terminology very carefully, present Bayes' rule \\
-\item Describe the ``joint'' (parameters $\times$ data space) view of inference, describe how the form of the likelihood function is prior information \citep{caticha} \\
-\item Discuss use of MCMC techniques for complex problems \\
-\item Discuss the various attempts at robustness/model checking/elicitation and that stuff
-\end{itemize}
-
 Bayesian Inference is a powerful framework for modelling uncertainty that has
-been successfully applied in many scientific fields \citep{}. The basic idea
+been successfully applied in many scientific fields. The basic idea
 is that we can model the degree of plausibility of a hypothesis $H$ by a real
 number in $[0, 1]$, and that these numbers should be manipulated according to
 the rules of probability theory. If we are initially uncertain about some
@@ -57,10 +50,10 @@ P(H|D) = \frac{P(H)P(D|H)}{P(D)}
 
 One common application of Bayesian Inference is for parameter estimation.
 Suppose there is some quantity $\theta$ that is unknown. Initially, we describe
-our uncertainty by a prior distribution $p(\theta)$. We also know about some
+our uncertainty by a prior probability distribution $p(\theta)$. We also know about some
 observation or experiment that will yield data $D$ that will provide some
-information about $\theta$. We describe our knowledge about this process by 
-{\it sampling distributions} $p(D|\theta)$. Then, once a specific data set
+information about $\theta$. We describe our knowledge about this process by a 
+set of conditional probability distributions $p(D|\theta)$. Then, once a specific data set
 $D_{\rm obs}$ has been observed, we update our state of knowledge about $\theta$
 to the {\it posterior distribution}:
 \begin{equation}
@@ -75,13 +68,16 @@ knowledge and remaining uncertainty about $\theta$ after taking into account the
 
 \item $p(\theta)$ is the {\it prior distribution}, a probability distribution
 over possible values for $\theta$ that describes our uncertainty about
-$\theta$ before taking into account the data. Commonly, this is a broad
-probability distribution, describing a large amount of uncertainty. \\
+$\theta$ before taking into account the data. In many applications, this is a broad
+probability distribution describing a large amount of uncertainty. \\
 
 \item $p(D|\theta)$ is a function of
-both $\theta$ and $D$ and is referred to as the {\it sampling distribution}. 
+both $\theta$ and $D$ and is sometimes referred to as the {\it sampling distribution}.
+Another name is the generative model. 
 The sampling distribution $p(D|\theta)$ is a set of probability distributions,
-one for each value of $\theta$, and describe our prior information about how the data are connected to the parameters \citep{2008arXiv0808.0012C}.
+one for each value of $\theta$, and describe our prior information about how the data are connected to the parameters \citep{2008arXiv0808.0012C}. In particular, it is the probability distribution
+for the data we might observe, {\it if} we knew the true value of the parameters
+$\theta$, as a function of $\theta$.
 
 \item $p(D|\theta)|_{D = D_{\rm obs}}$ is called the {\it likelihood function}.
 It is obtained from the sampling distribution, with the actual data substituted in,
@@ -90,7 +86,6 @@ set that was observed on our beliefs about $\theta$: values of $\theta$ with a h
 likelihood predicted the data well and will have their probability upweighted
 in the posterior distribution.
 \end{itemize}
-
 
 \begin{figure*}
 \begin{center}
@@ -109,6 +104,9 @@ the uncertainty in the determination of the parameters: any feature of the
 models that varies between movie frames is a conclusion that is uncertain, and any
 feature that is common to all frames in the movie is a feature that has a high
 posterior probability.
+
+{\bf Discuss the various attempts at robustness/model checking/elicitation and that stuff}
+
 
 \section{Two Kinds of Model}
 In this paper we consider two general categories of models that can be fit to
