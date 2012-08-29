@@ -252,10 +252,11 @@ p(\yy|A, c, w, \kappa) &=& \prod_{i=1}^N
 &\propto& \kappa^{-N}\exp\left[-\frac{1}{2(\kappa\sigma)^2}\sum_{i=1}^N\left(y_i - \mathcal{M}(x_i; A, c, w)\right)^2\right]
 \end{eqnarray}
 We ran this model through DNest and found that it also does not work. The
-true value of $F$ is 1, and the inferred values of $F$ are
-$(0.9401 \pm 0.0072)$ and $(0.9404 \pm 0.0083)$
-respectively. The true value is an $8.3-\sigma$ outlier from the posterior
-using the simple model, and this is only reduced to $7.2-\sigma$ by the
+true value of $F$ is 1, and the inferred values of $F$ (posterior mean
+$\pm$ posterior standard deviation) are
+$(0.9407 \pm 0.0044)$ and $(0.9402 \pm 0.0077)$
+respectively. The true value is a $13.5$-$\sigma$ outlier from the posterior
+using the simple model, and this is only reduced to $7.7$-$\sigma$ by the
 inclusion of the ``sigma-boost'' parameter $\kappa$. Clearly this is an
 unsatisfactory situation.
 
