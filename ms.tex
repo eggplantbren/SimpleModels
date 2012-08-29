@@ -166,7 +166,10 @@ generated from a mixture of three Gaussians, and normalised to a sum of 1.
 {\bf Bottom}: Simulated data with added noise.\label{emission_line}}
 \end{figure*}
 
-\subsection{The Simply-Parameterised Model}
+\section{Fitting a Simply-Parameterised Model}
+We now explore what happens when we fit simulated data (bottom panel of
+Figure~\ref{emission_line}) with an inflexible simply-parameterised model.
+We will fit the data with single Gaussian component.
 The model for the shape of the line is:
 \begin{eqnarray}
 \mathcal{M}(x; A, c, w) &=&
@@ -178,7 +181,7 @@ A\exp
 \end{eqnarray}
 where $A$ is the peak amplitude, $c$ is the central position of the line
 and $w$ is the line width. To infer the parameters $\{A, c, w\}$ from some data
-$\yy$, we will use Bayes' rule:
+$\yy = \{y_1, y_2, ..., y_N\}$, we will use Bayes' rule:
 \begin{eqnarray}
 p(A, c, w | \yy) \propto p(A, c, w)p(\yy | A, c, w).
 \end{eqnarray}
@@ -200,8 +203,24 @@ p(\yy|A, c, w) &=& \prod_{i=1}^N
 -\frac{1}{2\sigma^2}\left(y_i - \mathcal{M}(x_i; A, c, w)\right)^2
 \right] \\
 &\propto& \exp\left[-\frac{1}{2\sigma^2}\sum_{i=1}^N\left(y_i - \mathcal{M}(x_i; A, c, w)\right)^2\right] \\
-&\propto& \exp\left[-\frac{1}{2}\chi^2\right].
+&\propto& \exp\left[-\frac{1}{2}\chi^2({\tt model}, {\tt data})\right].
 \end{eqnarray}
+The likelihood here is related to the commonly used $\chi^2$ deviation between
+te model and the data.
+
+\subsection{The Prior Distribution}
+To proceed with the inference, we require a prior distribution over the space
+of possible parameter values for $A$, $c$ and $w$. We shall assume independence:
+\begin{eqnarray}
+p(A, c, w) = p(A)p(c)p(w).
+\end{eqnarray}
+This means that, prior to learning the data, we are unaware of any logical
+connection between the values of the parameters. In other words, if we learned the
+value of any parameter we would not update our knowledge about the others.
+For the central position $c$ of the line, we assigned a uniform prior between
+$-10$ and $10$, which is the same range as the data. For $A$ and $w$ we assigned
+priors proportional to $1/A$ and $1/w$ between $10^{-3}$ and $10^{+3}$, since these
+parameters are known to be positive and have an uncertain magnitude.
 
 \section{The Failure of Simply Parameterised Models}
 \begin{itemize}
