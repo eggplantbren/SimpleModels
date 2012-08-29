@@ -145,6 +145,16 @@ of $0.001$, and then normalised to sum to 1:
 \begin{eqnarray}
 \sum_{i=1}^N \mathcal{M}_0(x_i) &=& 1.
 \end{eqnarray}
+To simulate noise in the measurement process, errors $\{\epsilon_i\}$ were added, generated
+independently from a normal distribution with mean 0 and standard deviation
+$\sigma = 3 \times 10^{-4}$.
+This produces noisy data $\mathbf{y} = \{y_1, y_2, ..., y_N\}$:
+\begin{eqnarray}
+\begin{array}{lccr}
+y_i = \mathcal{M}_0(x_i) + \epsilon_i, & & & \epsilon_i \sim \mathcal{N}(0, \sigma^2).
+\end{array}
+\end{eqnarray}
+
 
 \subsection{The Simply-Parameterised Model}
 The model for the shape of the line is:
