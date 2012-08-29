@@ -107,7 +107,6 @@ posterior probability.
 
 {\bf Discuss the various attempts at robustness/model checking/elicitation and that stuff}
 
-
 \section{Two Kinds of Model}
 In this paper we consider two general categories of models that can be fit to
 data. The first of these we will call ``simply-parameterised'' models.
@@ -127,15 +126,25 @@ is done computationally, the MCMC methods tend to work very well.
 The second category of models we consider are ``complex'' models. These tend to
 be much more flexible and contain large numbers of unknown parameters. Complex
 models are often incorrectly referred to as nonparametric models. A better term
-would be flexible models or free-form models.
-
-The primary advantage of complex models is realism. The universe is not
+would be flexible models or free-form models. The primary advantage of complex models is realism. The universe is not
 simple place, and it is rare that a physical situation can be described accurately
-by a simply-parameterised model which is often a single mathematical equation.
+by a simply-parameterised model which is often a simple mathematical formula.
 
-\section{Example 1: Fitting an Emission Line}
+\section{An Example: Fitting an Emission Line}
 Throughout this paper we will use a simple example of fitting an emission line
-to noisy data in order to estimate the total flux of the line.
+to noisy data to explore the properties of simply parameterised models. The
+simulated data was generated from the following complex model:
+\begin{eqnarray}
+\mathcal{M}_0(x) \propto 3\exp\left[-\frac{1}{2}\left(\frac{x}{0.3}\right)^2\right]
++ \exp\left[-\frac{1}{2}\left(\frac{x - 1}{1}\right)^2\right]
++ 5\exp\left[-\frac{1}{2}\left(\frac{x + 1}{0.5}\right)^2\right]
+%M = 3*exp(-0.5*(x/0.3)**2) + exp(-0.5*(x-1.)**2) + 5*exp(-0.5*((x+1)/0.5)**2)
+\end{eqnarray}
+The fluxes were evaluated at $x$-values ranging from $-10$ to $10$ in steps
+of $0.001$, and then normalised to sum to 1:
+\begin{eqnarray}
+\sum_{i=1}^N \mathcal{M}_0(x_i) &=& 1.
+\end{eqnarray}
 
 \subsection{The Simply-Parameterised Model}
 The model for the shape of the line is:
