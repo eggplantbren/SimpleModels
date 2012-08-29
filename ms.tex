@@ -154,7 +154,17 @@ This produces noisy data $\mathbf{y} = \{y_1, y_2, ..., y_N\}$:
 y_i = \mathcal{M}_0(x_i) + \epsilon_i, & & & \epsilon_i \sim \mathcal{N}(0, \sigma^2).
 \end{array}
 \end{eqnarray}
+The simulated data is shown in Figure~\ref{emission_line}.
 
+\begin{figure*}
+\begin{center}
+\includegraphics[scale=0.5]{emission_line.eps}
+\end{center}
+\caption{The simulated data that will be used to illustrate the properties of
+simply-parameterised models. {\bf Top}: The noise-free true model $\mathcal{M}_0(x)$,
+generated from a mixture of three Gaussians, and normalised to a sum of 1.
+{\bf Bottom}: Simulated data with added noise.\label{emission_line}}
+\end{figure*}
 
 \subsection{The Simply-Parameterised Model}
 The model for the shape of the line is:
@@ -192,13 +202,6 @@ p(\yy|A, c, w) &=& \prod_{i=1}^N
 &\propto& \exp\left[-\frac{1}{2\sigma^2}\sum_{i=1}^N\left(y_i - \mathcal{M}(x_i; A, c, w)\right)^2\right] \\
 &\propto& \exp\left[-\frac{1}{2}\chi^2\right].
 \end{eqnarray}
-
-
-\begin{figure*}
-\begin{center}
-\includegraphics[scale=0.5]{emission_line.eps}
-\end{center}
-\end{figure*}
 
 \section{The Failure of Simply Parameterised Models}
 \begin{itemize}
