@@ -222,7 +222,37 @@ $-10$ and $10$, which is the same range as the data. For $A$ and $w$ we assigned
 priors proportional to $1/A$ and $1/w$ between $10^{-3}$ and $10^{+3}$, since these
 parameters are known to be positive and have an uncertain magnitude.
 
-\section{The Failure of Simply Parameterised Models}
+\subsection{The Failure of the Simply Parameterised Model}
+We ran the simply parameterised model on the simulated data using the Diffusive
+Nested Sampling algorithm \citep{dnest}
+\footnote{A C++ implementation of Diffusive Nested Sampling is available
+online at {\tt http://github.com/eggplantbren/DNest3/}.}. This provides samples
+from the posterior distribution for the parameters $A$, $c$ and $w$. Since these
+parameters do not ``exist'' in reality (i.e. the data were generated from the
+complex model), it does not make much sense to look at the posterior distribution
+for the parameters. However, consider the total flux:
+\begin{eqnarray}
+F = \sum_{i=1}^N \mathcal{M}(x_i)
+\end{eqnarray}
+This can be computed both for the true underlying complex model, and the fitted
+simple models. In other words, it ``exists''. We computed the posterior distribution
+for the total flux using the posterior samples. These are plotted in
+Figure~\ref{failure}.
+
+A commonly suggested technique \citep[e.g.][]{gregory} to avoid this situation
+is to add an ``error-bar boost'' parameter which we will call $\kappa$.
+This adds one more parameter to the list, and the likelihood becomes:
+\begin{eqnarray}
+p(\yy|A, c, w, \kappa) &=& \prod_{i=1}^N
+\frac{1}{(\kappa\sigma)\sqrt{2\pi}}
+\exp
+\left[
+-\frac{1}{2(\kappa\sigma)^2}\left(y_i - \mathcal{M}(x_i; A, c, w)\right)^2
+\right] \\
+&\propto& \kappa^{-N}\exp\left[-\frac{1}{2(\kappa\sigma)^2}\sum_{i=1}^N\left(y_i - \mathcal{M}(x_i; A, c, w)\right)^2\right]
+\end{eqnarray}
+
+
 \begin{itemize}
 \item Easy to implement \\
 \item Computationally fast to get inferences - therefore can be applied on a large scale, e.g. to large samples of objects. \\
@@ -245,14 +275,6 @@ parameters are known to be positive and have an uncertain magnitude.
 \item Describe why qualitatively, the likelihood function should now be ``weaker'' than before
 \item Describe why the old likelihood function is still (often) a good hill to climb
 \end{itemize}
-
-\begin{figure*}
-\begin{center}
-\includegraphics[scale=0.25]{simple_complex1.eps}
-\includegraphics[scale=0.25]{simple_complex2.eps}
-\includegraphics[scale=0.25]{simple_complex3.eps}
-\end{center}
-\end{figure*}
 
 \section{Implementation with Nested Sampling}
 \begin{itemize}
@@ -315,6 +337,10 @@ Tommaso Treu, Anna Pancoast, Phil Marshall, Matthew Auger, Greg Dobler, Sebastia
 \bibitem[\protect\citeauthoryear{Brewer et al.}{2011}]{2011MNRAS.412.2521B} 
 Brewer B.~J., Lewis G.~F., Belokurov V., Irwin M.~J., Bridges T.~J., Evans 
 N.~W., 2011, MNRAS, 412, 2521 
+
+\bibitem[\protect\citeauthoryear{Brewer, P{\'a}rtay, 
+\& Cs{\'a}nyi}{2011}]{dnest} {\bf Brewer B.~J.}, P{\'a}rtay L.~B., Cs{\'a}nyi G., 2011, Diffusive Nested Sampling, 
+Statistics and Computing, 21, 4, 649-656.
 
 \bibitem[\protect\citeauthoryear{Brewer et al.}{2012}]{2012arXiv1201.1677B} 
 Brewer B.~J., et al., 2012, arXiv, arXiv:1201.1677 
