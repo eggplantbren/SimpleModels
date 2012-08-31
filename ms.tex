@@ -312,6 +312,24 @@ unsatisfactory situation.
 \end{figure*}
 
 \section{More Objective Temperature Selection}
+Suppose the complex model has parameters $\eta$.
+The joint prior between the simple model parameters $\theta$ and the data $D$
+is given by:
+\begin{eqnarray}
+q_0(\theta, D).
+\end{eqnarray}
+We wish to approximate this by another distribution:
+\begin{eqnarray}
+p_T(\theta, D) &=& p(\theta)\mathcal{L}(\theta; D).
+\end{eqnarray}
+This approximation will be done by maximising:
+\begin{eqnarray}
+H(T) &=& -\int p_T(\theta, D) \log q_0(\theta, D) \, d\theta \, dD
+\end{eqnarray}
+
+
+
+
 \begin{itemize}
 \item If we can generate from a prior over complex models, and then fit simple models to each sample, and also generate simulated data from the complex model, we can get an idea of the joint prior over the space of (simple parameters, data)\\
 \item Approximate the joint prior over (simple parameters, data) with a tempered version of the old likelihood \\
