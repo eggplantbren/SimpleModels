@@ -332,20 +332,58 @@ subject to the constraint of equal normalisations:
 \end{figure*}
 
 \section{More Objective Temperature Selection}
-Suppose the complex model has parameters $\eta$.
-The joint prior between the simple model parameters $\theta$ and the data $D$
-is given by:
+Suppose the complex model has parameters $\xi$ and the simple model
+has parameters $\theta$. What we really want is the posterior for $\theta$:
 \begin{eqnarray}
-q_0(\theta, D).
+p(\theta|x) \propto p(\theta)p(x|\theta)
 \end{eqnarray}
-We wish to approximate this by another distribution:
+But the likelihood $p(x|\theta)$ is unavailable. All we have access to is the
+likelihood given {\it complex} model parameters, that is, we can evaluate
+$p(x|\xi)$. For the purposes of predicting data, $\xi$ makes $\theta$
+redundant:
 \begin{eqnarray}
-p_T(\theta, D) &=& p(\theta)\mathcal{L}(\theta; D).
+p(x|\xi) = p(x|\xi, \theta)
 \end{eqnarray}
-This approximation will be done by maximising:
+
+Suppose we can also sample the joint distribution between $\xi$, $\theta$
+and $x$.
 \begin{eqnarray}
-H(T) &=& -\int p_T(\theta, D) \log q_0(\theta, D) \, d\theta \, dD
+p(\xi)p(\theta|\xi)p(x|\theta, \xi) &=& p(\xi)\delta\left(
+\theta - f(\xi)\right)p(x|\xi)
 \end{eqnarray}
+This implies the following joint distribution for $\theta$ and $x$:
+\begin{eqnarray}
+p(\theta, x) &=& \int p(\xi)\delta\left(
+\theta - f(\xi)\right)p(x|\xi) \, d\xi
+\end{eqnarray}
+
+
+We shall approximate our target posterior with things we can actually
+implement, and then optimise our approximation. Adding subscripts to the target
+posterior:
+\begin{eqnarray}
+p_0(\theta|x) \propto p_0(\theta)p_0(x|\theta).
+\end{eqnarray}
+
+
+
+
+%The joint prior between the simple model parameters $\theta$ and the data $x$
+%is given by:
+%\begin{eqnarray}
+%p_0(\theta, x) &=& \int p_0(\xi, \theta, x) \, d\xi \\
+%&=& \int p_0(\xi)p_0(\theta|\xi)p_0(x|\theta, \xi) \, d\xi \\
+%&=& \int p_0(\xi)\delta\left(\theta - f(\xi)\right)p_0(x|\theta, \xi) \, d\xi \\
+%&=& \int p_0(\xi)\delta\left(\theta - f(\xi)\right)p_0(x|\theta, \xi) \, d\xi
+%\end{eqnarray}
+%We wish to approximate this by another distribution:
+%\begin{eqnarray}
+%p_T(\theta, D) &=& p(\theta)\mathcal{L}(\theta; D).
+%\end{eqnarray}
+%This approximation will be done by maximising:
+%\begin{eqnarray}
+%H(T) &=& -\int p_T(\theta, D) \log q_0(\theta, D) \, d\theta \, dD
+%\end{eqnarray}
 
 
 
