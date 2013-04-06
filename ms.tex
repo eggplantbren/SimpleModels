@@ -10,6 +10,7 @@
 \renewcommand{\textfraction}{0.1}
 \parindent=0cm
 \newcommand{\yy}{\mathbf{y}}
+\newcommand{\dnest}{\texttt{DNest}}
 
 \title{Reliable Inferences from Simply Parameterised Models}
 
@@ -29,9 +30,9 @@
 \maketitle
 
 \begin{abstract}
-We discuss the practical use of simply parameterised models in Bayesian data analysis, particularly in astronomy.
-The use of simply parameterised models is problematic when they are fit to large, informative data sets, resulting in unrealistically small uncertainties on inferences. In common parlance, the formal statistical errors may be small, but the systematic errors are often large and in many cases, difficult to quantify at all. In principle, the best solution to this problem is to develop more realistic complex models that accurately describe our prior beliefs. However, this is often infeasible in practice, due to computational limitations and the difficulty of defining satisfactory prior distributions over high dimensional spaces. As a pragmatic alternative, we show that it is possible to reinterpret the use of simple models in a way that avoids the problem of overconfident
-inferences. The key idea is to weaken the connection between the parameters and the data that is assumed in the prior probabilities. This weakening can be implemented straightforwardly using the Nested Sampling algorithm.
+We discuss the practical use of simply parameterised models in Bayesian data analysis.
+These models can be problematic when they are fit to large, informative data sets, resulting in unrealistically small uncertainties on the resulting inferences. In common parlance, the formal statistical errors may be small, but the systematic errors are often large and in many cases, difficult to quantify at all. In principle, the best solution to this problem is to develop more realistic complex models that accurately describe our prior beliefs. However, this is often infeasible in practice, due to computational limitations and the difficulty of defining satisfactory prior distributions over high dimensional spaces. As a pragmatic alternative, we show that it is possible to reinterpret the use of simple models in a way that avoids the problem of overconfident
+inferences. The key idea is to weaken the connection between the parameters and the data that is assumed in the prior probabilities. This weakening can be implemented straightforwardly after-the-fact using the Nested Sampling algorithm.
 \end{abstract}
 
 \section{Introduction}
@@ -94,7 +95,8 @@ in the posterior distribution.
 \end{figure*}
 
 When the number of parameters being inferred is 3 or greater, enumeration of
-all possible values becomes computationally prohibitive. In this situation,
+all possible values and their probabilities becomes computationally prohibitive.
+In this situation,
 Markov Chain Monte Carlo (MCMC) methods are commonly used to produce samples
 drawn from the posterior distribution. These samples can then be used to view
 the marginal distribution for any particular parameter(s) of interest.
@@ -138,14 +140,15 @@ simulated data was generated from the following complex model:
 \mathcal{M}_0(x) \propto 3\exp\left[-\frac{1}{2}\left(\frac{x}{0.3}\right)^2\right]
 + \exp\left[-\frac{1}{2}\left(\frac{x - 1}{1}\right)^2\right]
 + 5\exp\left[-\frac{1}{2}\left(\frac{x + 1}{0.5}\right)^2\right]
-%M = 3*exp(-0.5*(x/0.3)**2) + exp(-0.5*(x-1.)**2) + 5*exp(-0.5*((x+1)/0.5)**2)
+\label{eqn:truth}
 \end{eqnarray}
 The fluxes were evaluated at $x$-values ranging from $-10$ to $10$ in steps
 of $0.001$, and then normalised to sum to 1:
 \begin{eqnarray}
 \sum_{i=1}^N \mathcal{M}_0(x_i) &=& 1.
 \end{eqnarray}
-To simulate noise in the measurement process, errors $\{\epsilon_i\}$ were added, generated
+To simulate noise in the measurement process, errors $\{\epsilon_i\}$ were
+added, generated
 independently from a normal distribution with mean 0 and standard deviation
 $\sigma = 3 \times 10^{-4}$.
 This produces noisy data $\mathbf{y} = \{y_1, y_2, ..., y_N\}$:
@@ -154,7 +157,7 @@ This produces noisy data $\mathbf{y} = \{y_1, y_2, ..., y_N\}$:
 y_i = \mathcal{M}_0(x_i) + \epsilon_i, & & & \epsilon_i \sim \mathcal{N}(0, \sigma^2).
 \end{array}
 \end{eqnarray}
-The simulated data is shown in Figure~\ref{emission_line}.
+The simulated noisy data is shown in Figure~\ref{emission_line}.
 
 \begin{figure*}
 \begin{center}
@@ -230,12 +233,12 @@ online at {\tt http://github.com/eggplantbren/DNest3/}.}. This provides samples
 from the posterior distribution for the parameters $A$, $c$ and $w$. Since these
 parameters do not ``exist'' in reality (i.e. the data were generated from the
 complex model), it does not make much sense to look at the posterior distribution
-for the parameters. However, consider the total flux:
+for them. However, consider the total flux:
 \begin{eqnarray}
 F = \sum_{i=1}^N \mathcal{M}(x_i)
 \end{eqnarray}
 This can be computed both for the true underlying complex model, and the fitted
-simple models. In other words, it ``exists''. We computed the posterior distribution
+simple models. In simpler terms, it ``exists''. We computed the posterior distribution
 for the total flux using the posterior samples. These are plotted in
 Figure~\ref{failure}.
 
@@ -251,7 +254,7 @@ p(\yy|A, c, w, \kappa) &=& \prod_{i=1}^N
 \right] \\
 &\propto& \kappa^{-N}\exp\left[-\frac{1}{2(\kappa\sigma)^2}\sum_{i=1}^N\left(y_i - \mathcal{M}(x_i; A, c, w)\right)^2\right]
 \end{eqnarray}
-We ran this model through DNest and found that it also does not work. The
+We ran this model through \dnest and found that it also does not work. The
 true value of $F$ is 1, and the inferred values of $F$ (posterior mean
 $\pm$ posterior standard deviation) are
 $(0.9407 \pm 0.0044)$ and $(0.9402 \pm 0.0077)$
@@ -273,6 +276,23 @@ unsatisfactory situation.
 \caption{\label{convergence}}
 \end{center}
 \end{figure*}
+
+\section{Simply-Parameterised Model Parameters Exist}
+Consider our emission line example. The true underlying function was given
+in Equation~\ref{eqn:truth}. Now imagine that we had a family of simply
+parameterised models $M(x)$, parameterised by $\theta$:
+\begin{eqnarray}
+M(x; \theta)
+\end{eqnarray}
+Suppose we wanted to, for summary purposes, describe the complex truth
+$\mathcal{M}_0(x)$ by some fitted simple model that maximises the following:
+\begin{eqnarray}
+S(\theta) &=& \int \mathcal{M}_0(x)\log\left(M(x; \theta)\right) \, dx
+\end{eqnarray}
+subject to the constraint of equal normalisations:
+\begin{eqnarray}
+\int M(x) \, dx = \int \mathcal{M}_0(x) \, dx
+\end{eqnarray}
 
 \begin{itemize}
 \item Easy to implement \\
