@@ -1,0 +1,61 @@
+\documentclass[a4paper, 11pt]{article}
+\usepackage{graphicx}
+\usepackage{natbib}
+\usepackage{amsmath}
+\usepackage[left=3cm,top=3cm,right=3cm]{geometry}
+
+\renewcommand{\topfraction}{0.85}
+\renewcommand{\textfraction}{0.1}
+\parindent=0cm
+
+%\title{Document Title}
+%\author{Brendon J. Brewer}
+
+\begin{document}
+%\maketitle
+
+The complex model implies a joint prior
+\begin{eqnarray}
+p_c(\theta, x) = p_c(\theta)p_c(x|\theta) = p_c(x)p_c(\theta|x).
+\end{eqnarray}
+
+The simple model implies its own joint prior
+\begin{eqnarray}
+p_s(\theta, x) = p_s(\theta)p_s(x|\theta) = p_s(x)p_s(\theta|x).
+\end{eqnarray}
+
+We would like to get the posterior under the complex model, $p_c(\theta|x)$,
+but that might be too hard.
+We wouldn't really mind if we could compute the results with the
+simple model's prior. This would give a posterior
+\begin{eqnarray}
+p(\theta | x) \propto p_s(\theta)p_c(x|\theta).
+\end{eqnarray}
+but we can't compute that either because $p_c(x|\theta)$ is intractable.
+
+One distribution for $\theta$ that we can compute is the following:
+\begin{eqnarray}
+q_\eta(\theta | x) \propto p_s(\theta)\mathcal{L}_\eta(\theta; x).
+\end{eqnarray}
+Here $\mathcal{L}$ is some scalar that quantifies the match between $\theta$ and
+$x$ and it also depends on adjustable parameter(s) $\eta$. A concrete example
+would be saying that $\mathcal{L}_\eta(\theta; x) = p_s(x|\theta)^{1/\eta}$, i.e.
+using a tempered version of the simple model's likelihood function.
+The expected score (with a logarithmic scoring rule) when using this approximating
+distribution is
+\begin{eqnarray}
+\int p_c(\theta | x) \log q_\eta(\theta | x) \, d\theta
+\end{eqnarray}
+and we want to choose the value of $\eta$ that maximises this.
+
+
+
+Alright, I'll now bite the bullet. Optimising the expected score, given the data,
+is hard. What if we optimise the pre-data expected score? This is
+\begin{eqnarray}
+\iint p_c(x) p_c(\theta | x) \log q_\eta(\theta | x) \, d\theta \, dx
+\end{eqnarray}
+
+
+\end{document}
+
