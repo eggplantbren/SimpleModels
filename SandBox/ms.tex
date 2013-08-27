@@ -37,6 +37,13 @@ One distribution for $\theta$ that we can compute is the following:
 \begin{eqnarray}
 q_\eta(\theta | x) \propto p_s(\theta)\mathcal{L}_\eta(\theta; x).
 \end{eqnarray}
+The normalised version of this distribution is
+\begin{eqnarray}
+q_\eta(\theta | x) &=& \frac{p_s(\theta)\mathcal{L}_\eta(\theta; x)}
+{\mathcal{Z}(\eta; x)}
+\end{eqnarray}
+where $\mathcal{Z}(\eta; x) = \int p_s(\theta)\mathcal{L}_\eta(\theta; x) \, d\theta$.
+
 Here $\mathcal{L}$ is some scalar that quantifies the match between $\theta$ and
 $x$ and it also depends on adjustable parameter(s) $\eta$. A concrete example
 would be saying that $\mathcal{L}_\eta(\theta; x) = p_s(x|\theta)^{1/\eta}$, i.e.
@@ -44,17 +51,14 @@ using a tempered version of the simple model's likelihood function.
 The expected score (with a logarithmic scoring rule) when using this approximating
 distribution is
 \begin{eqnarray}
-\int p_c(\theta | x) \log q_\eta(\theta | x) \, d\theta
+\int p_c(\theta | x) \log q_\eta(\theta | x) \, d\theta\\
+&=& \int q_\eta(\theta | x) \frac{p_c(\theta | x)}{q_\eta(\theta | x)} \log q_\eta(\theta | x) \, d\theta
 \end{eqnarray}
 and we want to choose the value of $\eta$ that maximises this.
 
-
-
-Alright, I'll now bite the bullet. Optimising the expected score, given the data,
-is hard. What if we optimise the pre-data expected score? This is
-\begin{eqnarray}
-\iint p_c(x) p_c(\theta | x) \log q_\eta(\theta | x) \, d\theta \, dx
-\end{eqnarray}
+%We could do a MaxEnt type approximation, which IMO is not correct here because
+%the constraint is only an approximation and not legitimate information. But it
+%might be tractable.
 
 
 \end{document}
