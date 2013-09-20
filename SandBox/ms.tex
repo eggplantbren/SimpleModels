@@ -51,8 +51,9 @@ using a tempered version of the simple model's likelihood function.
 The expected score (with a logarithmic scoring rule) when using this approximating
 distribution is
 \begin{eqnarray}
-\int p_c(\theta | x) \log q_\eta(\theta | x) \, d\theta\\
-&=& \int q_\eta(\theta | x) \frac{p_c(\theta | x)}{q_\eta(\theta | x)} \log q_\eta(\theta | x) \, d\theta
+U &=& \int p_c(\theta | x) \log q_\eta(\theta | x) \, d\theta\\
+&=& \int p_c(\theta | x) \log \left[\frac{p_s(\theta)\mathcal{L}_\eta(\theta; x)}
+{\mathcal{Z}(\eta; x)}\right] \, d\theta
 \end{eqnarray}
 and we want to choose the value of $\eta$ that maximises this.
 
